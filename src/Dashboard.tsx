@@ -3,6 +3,7 @@ import { useState, type ReactNode } from "react";
 import "./Dashboard.css";
 import { Search, ArrowBigUp, MessageCircle } from "lucide-react";
 import DashNavbar from "./DashboardNavbar";
+import { useNavigate } from "react-router-dom";
 
 interface Project {
   description: ReactNode;
@@ -18,7 +19,12 @@ interface JoinedProject {
   progress: number;
 }
 
-const Dashboard: React.FC = () => {
+interface DashboardProps {
+  joinedProjects: JoinedProject[];
+  setJoinedProjects: React.Dispatch<React.SetStateAction<JoinedProject[]>>;
+}
+
+const Dashboard: React.FC<DashboardProps> = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedDepartment, setSelectedDepartment] =
     useState("All Departments");
@@ -34,6 +40,8 @@ const Dashboard: React.FC = () => {
   const [commentInput, setCommentInput] = useState<string>("");
   const [upvotes, setUpvotes] = useState<{ [key: number]: number }>({});
   const [hasUpvoted, setHasUpvoted] = useState<{ [key: number]: boolean }>({});
+
+  const navigate = useNavigate();
 
   const departments = [
     "All Departments",
@@ -102,23 +110,6 @@ const Dashboard: React.FC = () => {
     setSearchQuery(e.target.value);
   };
 
-  const handleCreateProject = () => {
-    if (newProjectName.trim()) {
-      const newProject: JoinedProject = {
-        id: joinedProjects.length + 1,
-        title: newProjectName,
-        course:
-          selectedDepartment !== "All Departments"
-            ? selectedDepartment
-            : "Web Development",
-        progress: 0,
-      };
-      setJoinedProjects([...joinedProjects, newProject]);
-      setNewProjectName("");
-      setShowNewProjectModal(false);
-    }
-  };
-
   const filteredPickedProjects = pickedProjects.filter(
     (project) =>
       project.title.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -159,7 +150,7 @@ const Dashboard: React.FC = () => {
 
             <button
               className="create-btn"
-              onClick={() => setShowNewProjectModal(true)}
+              onClick={() => navigate("/CreateProject")}
             >
               MAKE
               <br />
@@ -308,33 +299,6 @@ const Dashboard: React.FC = () => {
           </div>
         </section>
       </main>
-
-      {showNewProjectModal && (
-        <div className="modal-overlay">
-          <div className="modal">
-            <h3>Create New Project</h3>
-            <input
-              type="text"
-              placeholder="Project name"
-              value={newProjectName}
-              onChange={(e) => setNewProjectName(e.target.value)}
-              onKeyPress={(e) => e.key === "Enter" && handleCreateProject()}
-              autoFocus
-            />
-            <div className="modal-actions">
-              <button
-                onClick={() => {
-                  setShowNewProjectModal(false);
-                  setNewProjectName("");
-                }}
-              >
-                Cancel
-              </button>
-              <button onClick={handleCreateProject}>Create</button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

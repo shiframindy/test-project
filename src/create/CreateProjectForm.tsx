@@ -1,4 +1,5 @@
 import React, { useState, type FormEvent, type ChangeEvent } from "react";
+import { useNavigate } from "react-router-dom"; // ⭐ NEW: navigation
 import "./CreateProjectForm.css";
 
 /* -----------------------------
@@ -10,6 +11,13 @@ interface ProjectData {
   roles: string[];
 }
 
+interface JoinedProject {
+  id: number;
+  title: string;
+  course: string;
+  progress: number;
+}
+
 interface InputProps {
   id: string;
   label: string;
@@ -18,6 +26,10 @@ interface InputProps {
   type?: string;
   rows?: number;
   required?: boolean;
+}
+
+interface CreateProjectFormProps {
+  setJoinedProjects: React.Dispatch<React.SetStateAction<JoinedProject[]>>; // ⭐ NEW
 }
 
 /* -----------------------------
@@ -57,7 +69,9 @@ const InputField: React.FC<InputProps> = ({
 /* -----------------------------
    Main Form Component
 ----------------------------- */
-const CreateProjectForm: React.FC = () => {
+const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
+  setJoinedProjects,
+}) => {
   // Form state
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -67,6 +81,8 @@ const CreateProjectForm: React.FC = () => {
   // Submission state
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate(); // ⭐ NEW
 
   // Reset form fields
   const resetForm = () => {
@@ -90,7 +106,6 @@ const CreateProjectForm: React.FC = () => {
     setError(null);
 
     const token = localStorage.getItem("userToken"); // assumed to exist
-
     setIsSubmitting(true);
 
     const projectData: ProjectData = { title, description, roles };
@@ -118,8 +133,20 @@ const CreateProjectForm: React.FC = () => {
       }
 
       const result = await response.json();
-      alert(`Project created successfully! ID: ${result.projectId}`);
+
+      // ⭐ Add project to Dashboard state
+      setJoinedProjects((prev) => [
+        ...prev,
+        {
+          id: result.projectId ?? Date.now(),
+          title,
+          course: "Web Development", // or selected department
+          progress: 0,
+        },
+      ]);
+
       resetForm();
+      navigate("/dashboard"); // ⭐ Return to Dashboard
     } catch (err) {
       console.error("Submission Error:", err);
       setError(

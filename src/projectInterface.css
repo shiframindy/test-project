@@ -1,0 +1,162 @@
+.folder-content-grid {
+    display: grid;
+    grid-template-columns: 35% 1fr; 
+    height: 100%;
+    gap: 15px; 
+    padding: 0 15px 15px 15px; 
+    box-sizing: border-box;
+    padding-top: 50px; 
+}
+
+.header-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+.title-input {
+    width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    background: transparent;
+    margin-bottom: 8px;
+    flex-shrink: 0; 
+}
+
+.desc-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    resize: none;
+    margin-bottom: 15px;
+    flex-grow: 1; 
+    overflow-y: auto;
+    min-height: 0; 
+    padding: 0;
+    font-size: 16px; 
+    line-height: 1.4;
+}
+
+.info-line {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+}
+
+.info-line input {
+    flex: 1;
+    padding: 2px 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.collab-section {
+    flex-shrink: 0;
+}
+
+.collab-section button {
+    margin-top: 5px;
+    padding: 3px 8px;
+}
+
+.status-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-shrink: 0;
+}
+
+.status-indicator {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+
+.status-indicator.orange {
+    background: orange;
+}
+
+.status-indicator.green {
+    background: green;
+}
+
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.task-box {
+    flex-grow: 1; 
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #fffef5;
+    border: 1px solid #d8cda9;
+    border-radius: 10px;
+    min-height: 0; 
+}
+
+.assign-btn {
+    margin-bottom: 8px;
+    padding: 5px 12px;
+    flex-shrink: 0;
+}
+
+.task-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.task-list.scrollable {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+}
+
+.task-list.scrollable::-webkit-scrollbar {
+    display: none;
+}
+
+.task-item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.progress-bar {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+    flex-shrink: 0;
+}
+
+.progress-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+}
+
+.progress-dot.done {
+    background: green;
+}
+
+.request-box {
+    height: 150px; 
+    padding: 10px;
+    background: #faf4de;
+    border: 1px solid #cfbd95;
+    border-radius: 10px;
+    flex-shrink: 0;
+    margin-top: 0;
+}
+
+.req-placeholder {
+    opacity: 0.6;
+}
